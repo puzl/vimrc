@@ -1,3 +1,0 @@
-[submodule "sources_non_forked/gtags.vim"]
-	path = sources_non_forked/gtags.vim
-	url = https://github.com/vim-scripts/gtags.vim.git
