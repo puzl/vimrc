@@ -1379,7 +1379,7 @@ cab  ctann  call <SID>CtAnnotate('')
 com! -nargs=0 -complete=command Ctann call <SID>CtAnnotate('')
 
 "       These commands don't work the same on UNIX vs. WinDoze
-if has("unix")
+if has("unix") && !has("win32unix")
   com! -nargs=0 -complete=command Ctldif exec
         \ "call <SID>CtConsoleDiff('', '/main/LATEST')"
   com! -nargs=0 -complete=command Cttree exec
@@ -1406,12 +1406,12 @@ else
   "     xlsvtree on buffer
   "cab  ctxlsv !start clearvtree.exe "%"<cr>
   com! -nargs=0 -complete=command Ctxlsv exec 
-        \ "!start clearvtree.exe ".expand("%")
+        \ "!clearvtree.exe ".expand("%")
   "     xdiff with predecessor
   "cab  ctdiff !start cleartool diff -graphical -pred "%"<CR>
   com! -nargs=0 -complete=command Ctdiff exec
-        \ "!start cleartool diff -graphical -pred \"".expand("%")."\""
-endif
+        \ "!cleartool diff -graphical -pred \"".expand("%")."\""
+"endif
 
 
 "     Diff buffer with the latest version on the main branch:
@@ -1537,7 +1537,7 @@ if !hasmapto('<Plug>CleartoolSetActiv')
         \ :call <SID>SetActiv('<c-r>=expand("<cfile>")<cr>')<cr>
 endif
 
-if has("unix")
+if has("unix") && !has("win32unix")
   if !hasmapto('<Plug>CleartoolConsoleLatestDiff')
     map <unique> <script> <Plug>CleartoolConsoleLatestDiff
           \ :call <SID>CtConsoleDiff('<c-r>=expand("<cfile>")<cr>', '/main/LATEST')<cr>
@@ -1555,7 +1555,7 @@ else
 
   if !hasmapto('<Plug>CleartoolGraphVerTree')
     map <unique> <script> <Plug>CleartoolGraphVerTree
-          \ :!start clearvtree.exe <c-r>=expand("<cfile>")<cr>
+          \ :!clearvtree.exe <c-r>=expand("<cfile>")<cr>
   endif
 endif
 " }}}
@@ -1564,7 +1564,7 @@ endif
 " ===========================================================================
 
 "       On UNIX the vob prefix for directories is different from WinDoze.
-" if has("unix")
+" if has("unix") && !has("win32unix")
 "   let vob_prfx="/vobs/"
 " else
 "   let vob_prfx="./"
